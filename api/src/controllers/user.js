@@ -59,7 +59,7 @@ export const signin = async (req, res) => {
     // compare the password to match with login password
     const matchPassword = await bcrypt.compare(password, existingUser.password);
 
-    if (!password) {
+    if (!matchPassword) {
       return res.status(404).json({ message: "Password doesn't match" });
     }
 
@@ -73,7 +73,7 @@ export const signin = async (req, res) => {
         expiresIn: "1h",
       }
     );
-    res.status(201).json({ existingUser, token });
+    res.status(200).json({ existingUser, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wroung with signin" });
     console.log(error);

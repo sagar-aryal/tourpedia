@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,6 +22,11 @@ import { AccountBox, Google } from "@mui/icons-material";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { error } = useSelector((state) => ({ ...state.auth }));
+
+  useEffect(() => {
+    error && toast.error(error);
+  }, [error]);
 
   const formik = useFormik({
     initialValues: {

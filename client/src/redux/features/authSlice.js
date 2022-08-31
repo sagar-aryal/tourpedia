@@ -9,14 +9,14 @@ const initialState = {
 
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ values, navigate, toast }) => {
+  async ({ values, navigate, toast }, { rejectWithValue }) => {
     try {
       const response = await api.signIn(values);
       toast.success("Login Successfully");
       navigate("/");
       return response.data;
     } catch (error) {
-      console.log(error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -24,7 +24,8 @@ export const login = createAsyncThunk(
 export const authSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
+  reducers: {},
+  extraReducers: {
     [login.pending]: (state, action) => {
       state.loading = true;
     },
@@ -35,7 +36,7 @@ export const authSlice = createSlice({
     },
     [login.rejected]: (state, action) => {
       state.loading = false;
-      state.error = action.payöload.message;
+      state.error = action.payload.message;
     },
   },
 });
