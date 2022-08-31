@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { login } from "../redux/features/authSlice";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   Box,
@@ -15,6 +20,9 @@ import {
 import { AccountBox, Google } from "@mui/icons-material";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -25,12 +33,21 @@ const Login = () => {
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string()
         .min(8, "Password must be 8 characters at minimum")
+        /*  .matches(
+          /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/,
+          "Password must contain number, uppercase letter, lowercase letter and  non-alpha numeric number"
+        ) */
         .required("Required"),
     }),
 
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      resetForm({ values: "" });
+      // console.log(values);
+      if (values) {
+        dispatch(login({ values, navigate, toast }));
+      }
+      setTimeout(() => {
+        resetForm({ values: "" });
+      }, "1000");
     },
   });
   return (
@@ -44,7 +61,7 @@ const Login = () => {
           margin: " 80px auto",
         }}
       >
-        <Typography variant="h4" color="secondary" align="center" p={5}>
+        <Typography variant="h5" color="secondary" align="center" p={2}>
           Login
           <AccountBox fontSize="lg" sx={{ verticalAlign: "bottom" }} />
         </Typography>
