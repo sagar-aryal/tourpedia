@@ -24,6 +24,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { error } = useSelector((state) => ({ ...state.auth }));
 
+  // login error message from backend
   useEffect(() => {
     error && toast.error(error);
   }, [error]);
@@ -47,7 +48,7 @@ const Login = () => {
 
     onSubmit: (values, { resetForm }) => {
       // console.log(values);
-      if (values) {
+      if (values.email && values.password) {
         dispatch(login({ values, navigate, toast }));
       }
       setTimeout(() => {
@@ -64,11 +65,12 @@ const Login = () => {
           padding: "20px",
           maxWidth: "400px",
           margin: " 80px auto",
+          textAlign: "center",
         }}
       >
-        <Typography variant="h5" color="secondary" align="center" p={2}>
+        <AccountBox fontSize="large" color="secondary" />
+        <Typography variant="h5" color="secondary" p={2}>
           Login
-          <AccountBox fontSize="lg" sx={{ verticalAlign: "bottom" }} />
         </Typography>
         <TextField
           required
@@ -80,10 +82,12 @@ const Login = () => {
           value={formik.values.email}
           onBlur={formik.handleBlur}
           error={formik.touched.email && formik.errors.email ? true : false}
-          sx={{ width: "100%", my: 2 }}
+          sx={{ width: "100%", my: 1 }}
         />
         {formik.touched.email && formik.errors.email ? (
-          <div style={{ color: "red" }}>{formik.errors.email}</div>
+          <div style={{ color: "red", textAlign: "left" }}>
+            {formik.errors.email}
+          </div>
         ) : null}
         <TextField
           required
@@ -97,10 +101,12 @@ const Login = () => {
           error={
             formik.touched.password && formik.errors.password ? true : false
           }
-          sx={{ width: "100%", my: 2 }}
+          sx={{ width: "100%", my: 1 }}
         />
         {formik.touched.password && formik.errors.password ? (
-          <div style={{ color: "red" }}>{formik.errors.password}</div>
+          <div style={{ color: "red", textAlign: "left" }}>
+            {formik.errors.password}
+          </div>
         ) : null}
         <Button
           type="submit"
@@ -117,14 +123,14 @@ const Login = () => {
           startIcon={<Google />}
           sx={{
             width: "100%",
-            my: 4,
+            my: 2,
             borderRadius: "24px",
           }}
         >
           Login with Google
         </Button>
         <Card>
-          <Typography variant="body1" align="center" m={2}>
+          <Typography variant="body1" m={2}>
             Don't have an account?
             <Link
               component={Link}
