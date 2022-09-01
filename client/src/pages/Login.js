@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import GoogleLoginButton from "../components/GoogleLoginButton";
 import { login } from "../redux/features/authSlice";
 
 import { useFormik } from "formik";
@@ -17,7 +18,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { AccountBox, Google } from "@mui/icons-material";
+import { AccountBox } from "@mui/icons-material";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -116,21 +117,11 @@ const Login = () => {
         >
           Login
         </Button>
-        <Divider sx={{ fontSize: "20px" }}>or</Divider>
-        <Button
-          variant="contained"
-          color="info"
-          startIcon={<Google />}
-          sx={{
-            width: "100%",
-            my: 2,
-            borderRadius: "24px",
-          }}
-        >
-          Login with Google
-        </Button>
+        <Divider sx={{ fontSize: "20px", mb: 2 }}>or</Divider>
+
+        <GoogleLoginButton />
         <Card>
-          <Typography variant="body1" m={2}>
+          <Typography variant="body1" my={2}>
             Don't have an account?
             <Link
               component={Link}
