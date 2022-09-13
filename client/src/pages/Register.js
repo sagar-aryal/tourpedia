@@ -9,16 +9,8 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { AccountBox, Google } from "@mui/icons-material";
-import GoogleLoginButton from "../components/GoogleLoginButton";
+import { Box, Button, Card, TextField, Typography } from "@mui/material";
+import { AccountBox } from "@mui/icons-material";
 
 const Register = () => {
   const dispatch = useDispatch();

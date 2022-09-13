@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { setLogout } from "../redux/features/authSlice";
 
 import {
   AppBar,
@@ -21,6 +24,13 @@ const navItems = [
 ];
 
 const Navbar = () => {
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(setLogout());
+  };
+
   return (
     <AppBar position="sticky">
       <Toolbar
@@ -85,9 +95,20 @@ const Navbar = () => {
             Search
           </TextField>
 
-          <Button variant="contained" color="info" component={Link} to="/login">
-            Login
-          </Button>
+          {user ? (
+            <Button variant="contained" color="info" onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="info"
+              component={Link}
+              to="/login"
+            >
+              Login
+            </Button>
+          )}
         </Box>
       </Toolbar>
     </AppBar>
