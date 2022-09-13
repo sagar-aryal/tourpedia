@@ -79,3 +79,30 @@ export const signup = async (req, res) => {
     console.log(error);
   }
 };
+
+export const googleSignin = async (req, res) => {
+  const { name, email, googleId, token } = req.body;
+
+  try {
+    // check if the user already exists in the database or not
+    const existingUser = await UserModal.findOne({ email });
+
+    if (existingUser) {
+      const user = { _id: existingUser._id.toString(), name, email };
+      return res.status(400).json({ user, token });
+    }
+
+    // create a new user if it doesn't exist
+    const createUser = await UserModal.create({
+      name,
+      email,
+      googleId,
+    });
+    res.status(201).json({ createUser, token });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wroung with googleSignin" });
+    console.log(error);
+  }
+};

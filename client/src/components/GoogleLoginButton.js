@@ -1,47 +1,42 @@
-import React from "react";
-
-import { GoogleLogin } from "react-google-login";
+import React, { useEffect } from "react";
+import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { Button } from "@mui/material";
-import { Google } from "@mui/icons-material";
-
-const GOOGLE_CLIENT_ID =
-  "358508671216-bvlr36t076i7qjj9jel835mgb7f5nkqp.apps.googleusercontent.com";
+import { googleSignIn } from "../redux/features/authSlice";
 
 const GoogleLoginButton = () => {
-  const googleSuccess = async (response) => {
-    console.log(response);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleCallbackResponse = (res) => {
+    const token = res.credential;
+    const userObj = jwt_decode(token);
+    const name = userObj?.name;
+    const email = userObj?.email;
+    const googleId = userObj?.sub;
+    const tokenId = userObj?.jti;
+    const userData = { name, email, googleId, tokenId };
+    console.log(userData);
+    dispatch(googleSignIn({ userData, navigate, toast }));
   };
 
-  const googleFailure = async (error) => {
-    toast.error(error);
-    console.log(error);
-  };
-  return (
-    <GoogleLogin
-      clientId={GOOGLE_CLIENT_ID}
-      render={(renderProps) => (
-        <Button
-          onClick={renderProps.onClick}
-          disabled={renderProps.disabled}
-          variant="contained"
-          color="info"
-          startIcon={<Google />}
-          sx={{
-            width: "100%",
-            my: 2,
-            borderRadius: "24px",
-          }}
-        >
-          Login with Google
-        </Button>
-      )}
-      onSuccess={googleSuccess}
-      onFailure={googleFailure}
-      cookiePolicy={"single_host_origin"}
-    />
-  );
+  useEffect(() => {
+    /*  global google */
+    google.accounts.id.initialize({
+      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+      callback: handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+      theme: "outline",
+      size: "large",
+    });
+  }, []);
+
+  return <div id="signInDiv"></div>;
 };
 
 export default GoogleLoginButton;

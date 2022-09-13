@@ -120,8 +120,8 @@ const Login = () => {
         <Divider sx={{ fontSize: "20px", mb: 2 }}>or</Divider>
 
         <GoogleLoginButton />
-        <Card>
-          <Typography variant="body1" my={2}>
+        <Card sx={{ marginTop: "18px" }}>
+          <Typography variant="body1" py={2}>
             Don't have an account?
             <Link
               component={Link}

@@ -16,13 +16,13 @@ import {
 
 const navItems = [
   { id: 1, name: "Home", link: "/" },
-  { id: 2, name: "Add", link: "/" },
-  { id: 3, name: "Dashboard", link: "/" },
+  { id: 2, name: "Add", link: "/add" },
+  { id: 3, name: "Dashboard", link: "/dashboard" },
 ];
 
 const Navbar = () => {
   return (
-    <AppBar sx={{ marginBottom: "80px" }}>
+    <AppBar position="sticky">
       <Toolbar
         sx={{
           display: "flex",
@@ -53,12 +53,11 @@ const Navbar = () => {
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center",
             }}
           >
             {navItems.map((item) => (
               <ListItem key={item.id} disablePadding>
-                <ListItemButton>
+                <ListItemButton component={Link} to={item.link}>
                   <ListItemText primary={item.name} />
                 </ListItemButton>
               </ListItem>
@@ -70,7 +69,6 @@ const Navbar = () => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center",
           }}
         >
           <TextField

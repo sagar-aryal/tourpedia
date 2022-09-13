@@ -18,6 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { AccountBox, Google } from "@mui/icons-material";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -196,20 +197,9 @@ const Register = () => {
         >
           Sign Up
         </Button>
-        <Divider sx={{ fontSize: "20px" }}>or</Divider>
-        <Button
-          variant="contained"
-          color="info"
-          startIcon={<Google />}
-          sx={{
-            width: "100%",
-            my: 2,
-            borderRadius: "24px",
-          }}
-        >
-          Sign Up with Google
-        </Button>
-        <Card>
+        {/* <Divider sx={{ fontSize: "20px", mb: 2 }}>or</Divider>
+        <GoogleLoginButton /> */}
+        <Card sx={{ marginTop: "18px" }}>
           <Typography variant="body1" m={2}>
             Already have an account?
             <Link
