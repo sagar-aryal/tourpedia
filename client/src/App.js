@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import TourForm from "./pages/TourForm";
 import Register from "./pages/Register";
 import { setUser } from "./redux/features/authSlice";
 
@@ -25,6 +26,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/add" element={<TourForm />} />
+        <Route path="/update/:id" element={<TourForm />} />
       </Routes>
     </BrowserRouter>
   );

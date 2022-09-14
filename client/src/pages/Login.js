@@ -75,6 +75,7 @@ const Login = () => {
         </Typography>
         <TextField
           required
+          autoFocus
           id="email"
           label="Email"
           name="email"

@@ -88,6 +88,7 @@ const Register = () => {
         </Typography>
         <TextField
           required
+          autoFocus
           id="firstName"
           label="First Name"
           name="firstName"
