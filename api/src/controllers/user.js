@@ -35,7 +35,7 @@ export const signin = async (req, res) => {
         expiresIn: "1h",
       }
     );
-    res.status(200).json({ existingUser, token });
+    res.status(200).json({ user: existingUser, token: token });
   } catch (error) {
     res.status(500).json({ message: "Something went wroung with signin" });
     console.log(error);
@@ -73,7 +73,7 @@ export const signup = async (req, res) => {
         expiresIn: "1h",
       }
     );
-    res.status(201).json({ createUser, token });
+    res.status(201).json({ user: createUser, token: token });
   } catch (error) {
     res.status(500).json({ message: "Something went wroung with signup" });
     console.log(error);
@@ -89,7 +89,7 @@ export const googleSignin = async (req, res) => {
 
     if (existingUser) {
       const user = { _id: existingUser._id.toString(), name, email };
-      return res.status(400).json({ user, token });
+      return res.status(200).json({ user, token });
     }
 
     // create a new user if it doesn't exist
@@ -98,7 +98,7 @@ export const googleSignin = async (req, res) => {
       email,
       googleId,
     });
-    res.status(201).json({ createUser, token });
+    res.status(201).json({ user: createUser, token: token });
   } catch (error) {
     res
       .status(500)

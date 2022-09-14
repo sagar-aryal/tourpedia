@@ -16,7 +16,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(setUser(user));
-  }, [dispatch, user]);
+  }, [user]);
   return (
     <BrowserRouter>
       <Navbar />

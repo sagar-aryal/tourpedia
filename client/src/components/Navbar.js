@@ -94,6 +94,11 @@ const Navbar = () => {
           >
             Search
           </TextField>
+          {user && (
+            <Typography variant="h6" mr={2}>
+              {user.user.name}
+            </Typography>
+          )}
 
           {user ? (
             <Button variant="contained" color="info" onClick={handleLogout}>
