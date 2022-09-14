@@ -18,10 +18,13 @@ app.use(cors());
 app.use("/users", userRouter);
 app.use("/tours", tourRouter);
 
+const MONGODB_URL = process.env.MONGODB_URL;
+const PORT = process.env.PORT || 5000;
+
 mongoose
-  .connect(process.env.MONGODB_URL)
+  .connect(MONGODB_URL)
   .then(() => {
-    app.listen(process.env.PORT, () => {
+    app.listen(PORT, () => {
       console.log(
         `Backend is running successfully to database and running at http://localhost:${PORT}/`
       );
