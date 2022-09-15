@@ -1,18 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { createTour } from "../redux/features/tourSlice";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
 
 const TourForm = () => {
+  const { error } = useSelector((state) => state.tour);
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //  error message from backend
+  useEffect(() => {
+    error && toast.error(error);
+  }, [error]);
+
   const formik = useFormik({
     initialValues: {
-      title: "",
-      description: "",
+      title: " ",
+      description: " ",
       tags: [],
-      image: "",
+      image: " ",
     },
-    onSubmit: (values) => {
+    validationSchema: Yup.object({
+      title: Yup.string()
+        .max(20, "Title should not be more than 20 characters")
+        .required("Required"),
+      description: Yup.string()
+        .max(1000, "Description should not be more than 1000 characters")
+        .required("Required"),
+      tags: Yup.string().required("Required"),
+      image: Yup.string().required("Required"),
+    }),
+    onSubmit: (values, { resetForm }) => {
       console.log(values);
+      if (values.title && values.description && values.tags && values.image) {
+        const tourData = { values, name: user?.user.name };
+        dispatch(createTour({ tourData, navigate, toast }));
+      }
+      setTimeout(() => {
+        resetForm({ values: "" });
+      }, "1000");
     },
   });
   return (
@@ -47,7 +81,20 @@ const TourForm = () => {
           sx={{ mt: 5, mb: 3 }}
           onChange={formik.handleChange}
           value={formik.values.title}
+          onBlur={formik.handleBlur}
+          error={formik.touched.title && formik.errors.title ? true : false}
         />
+        {formik.touched.title && formik.errors.title ? (
+          <div
+            style={{
+              color: "red",
+              alignSelf: "flex-start",
+              marginBottom: "24px",
+            }}
+          >
+            {formik.errors.title}
+          </div>
+        ) : null}
 
         <TextField
           required
@@ -62,7 +109,24 @@ const TourForm = () => {
           sx={{ mb: 3 }}
           onChange={formik.handleChange}
           value={formik.values.description}
+          onBlur={formik.handleBlur}
+          error={
+            formik.touched.description && formik.errors.description
+              ? true
+              : false
+          }
         />
+        {formik.touched.description && formik.errors.description ? (
+          <div
+            style={{
+              color: "red",
+              alignSelf: "flex-start",
+              marginBottom: "24px",
+            }}
+          >
+            {formik.errors.description}
+          </div>
+        ) : null}
 
         <TextField
           required
@@ -75,7 +139,20 @@ const TourForm = () => {
           sx={{ mb: 3 }}
           onChange={formik.handleChange}
           value={formik.values.tags}
+          onBlur={formik.handleBlur}
+          error={formik.touched.tags && formik.errors.tags ? true : false}
         />
+        {formik.touched.tags && formik.errors.tags ? (
+          <div
+            style={{
+              color: "red",
+              alignSelf: "flex-start",
+              marginBottom: "24px",
+            }}
+          >
+            {formik.errors.tags}
+          </div>
+        ) : null}
 
         <Box mb={3} alignSelf="flex-start">
           <input
@@ -85,8 +162,21 @@ const TourForm = () => {
             onChange={(e) =>
               formik.setFieldValue("image", e.currentTarget.files[0])
             }
+            onBlur={formik.handleBlur}
+            error={formik.touched.image && formik.errors.image ? true : false}
           />
         </Box>
+        {formik.touched.image && formik.errors.image ? (
+          <div
+            style={{
+              color: "red",
+              alignSelf: "flex-start",
+              marginBottom: "24px",
+            }}
+          >
+            {formik.errors.image}
+          </div>
+        ) : null}
 
         <Button
           type="submit"

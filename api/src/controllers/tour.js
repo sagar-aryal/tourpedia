@@ -1,18 +1,9 @@
 import TourModel from "../models/tour.js";
 
 export const createTour = async (req, res) => {
-  const {
-    title,
-    description,
-    name,
-    tags,
-    image,
-    likeCount,
-    creator,
-    createAt,
-  } = req.body;
+  const tourData = req.body;
 
-  const newTour = new TourModel(req.body);
+  const newTour = new TourModel({ tourData });
   try {
     await newTour.save();
     res.status(201).json(newTour);
