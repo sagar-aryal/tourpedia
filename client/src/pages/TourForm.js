@@ -23,10 +23,10 @@ const TourForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      title: " ",
-      description: " ",
-      tags: [],
-      image: " ",
+      title: "",
+      description: "",
+      tags: "",
+      image: "",
     },
     validationSchema: Yup.object({
       title: Yup.string()
@@ -39,9 +39,10 @@ const TourForm = () => {
       image: Yup.string().required("Required"),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
       if (values.title && values.description && values.tags && values.image) {
-        const tourData = { values, name: user?.user.name };
+        const tags = values.tags.split(" ");
+        const tourData = { ...values, tags, name: user?.user.name };
+        console.log(tourData);
         dispatch(createTour({ tourData, navigate, toast }));
       }
       setTimeout(() => {
@@ -52,6 +53,7 @@ const TourForm = () => {
   return (
     <form
       onSubmit={formik.handleSubmit}
+      encType="multipart/form-data"
       style={{
         margin: "12px auto",
         maxWidth: "380px",
@@ -138,9 +140,9 @@ const TourForm = () => {
           placeholder="Add tags. For example #traveller #holidays"
           sx={{ mb: 3 }}
           onChange={formik.handleChange}
-          value={formik.values.tags}
+          value={formik.values.tags.split(" ")}
           onBlur={formik.handleBlur}
-          error={formik.touched.tags && formik.errors.tags ? true : false}
+          error={formik.touched.tags && formik.errors ? true : false}
         />
         {formik.touched.tags && formik.errors.tags ? (
           <div

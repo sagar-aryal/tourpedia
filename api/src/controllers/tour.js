@@ -3,7 +3,9 @@ import TourModel from "../models/tour.js";
 export const createTour = async (req, res) => {
   const tourData = req.body;
 
-  const newTour = new TourModel({ tourData });
+  const newTour = new TourModel({
+    ...tourData,
+  });
   try {
     await newTour.save();
     res.status(201).json(newTour);
