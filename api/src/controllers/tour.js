@@ -2,10 +2,12 @@ import TourModel from "../models/tour.js";
 
 export const createTour = async (req, res) => {
   const tourData = req.body;
+  console.log(tourData);
 
-  const newTour = new TourModel({
-    ...tourData,
-  });
+  const url = req.protocol + "://" + req.get("host");
+  const image = url + "/uploads/" + req.file.filename;
+
+  const newTour = new TourModel({ ...tourData, image });
   try {
     await newTour.save();
     res.status(201).json(newTour);
