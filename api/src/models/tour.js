@@ -10,7 +10,6 @@ const tourSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  creator: String,
   createdAt: {
     type: String,
     default: new Date().toString(),

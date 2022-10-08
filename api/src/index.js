@@ -10,10 +10,14 @@ import tourRouter from "./routes/tour.js";
 const app = express();
 dotenv.config();
 
+// global middlewares
 app.use(morgan("dev"));
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
+
+// set uploads file public
+app.use("/uploads", express.static("uploads"));
 
 app.use("/users", userRouter);
 app.use("/tours", tourRouter);
