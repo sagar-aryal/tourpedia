@@ -13,6 +13,7 @@ export const createTour = createAsyncThunk(
   "tour/createTour",
   async ({ tourData, navigate, toast }, { rejectWithValue }) => {
     try {
+      console.log(tourData);
       const response = await api.createTour(tourData);
       toast.success("Tour added Successfully");
       navigate("/");
@@ -37,7 +38,7 @@ export const tourSlice = createSlice({
     },
     [createTour.fulfilled]: (state, action) => {
       state.loading = false;
-      state.tours = [action.payload];
+      state.tours = state.tours.push({ ...action.payload });
       state.user = action.payload;
     },
     [createTour.rejected]: (state, action) => {

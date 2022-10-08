@@ -36,13 +36,13 @@ const TourForm = () => {
         .max(1000, "Description should not be more than 1000 characters")
         .required("Required"),
       tags: Yup.string().required("Required"),
-      image: Yup.string().required("Required"),
+      image: Yup.mixed().required("Required"),
     }),
     onSubmit: (values, { resetForm }) => {
       if (values.title && values.description && values.tags && values.image) {
         const tags = values.tags.split(" ");
         const tourData = { ...values, tags, name: user?.user.name };
-        console.log(tourData);
+
         dispatch(createTour({ tourData, navigate, toast }));
       }
       setTimeout(() => {
@@ -53,7 +53,6 @@ const TourForm = () => {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      encType="multipart/form-data"
       style={{
         margin: "12px auto",
         maxWidth: "380px",

@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import morgan from "morgan";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
 import userRouter from "./routes/user.js";
@@ -11,13 +11,15 @@ const app = express();
 dotenv.config();
 
 // global middlewares
-app.use(morgan("dev"));
-app.use(express.json({ limit: "30mb", extended: true }));
-app.use(express.urlencoded({ limit: "30mb", extended: true }));
+
+// support parsing of application/json type post data
+app.use(bodyParser.json());
+//support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 // set uploads file public
-app.use("/uploads", express.static("uploads"));
+app.use("./uploads", express.static("uploads"));
 
 app.use("/users", userRouter);
 app.use("/tours", tourRouter);

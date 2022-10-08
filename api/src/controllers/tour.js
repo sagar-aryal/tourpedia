@@ -2,6 +2,7 @@ import TourModel from "../models/tour.js";
 
 export const createTour = async (req, res) => {
   const tourData = req.body;
+
   console.log(tourData);
 
   const url = req.protocol + "://" + req.get("host");
